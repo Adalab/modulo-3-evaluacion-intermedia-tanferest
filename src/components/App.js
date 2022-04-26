@@ -8,6 +8,7 @@ function App() {
     quote: '',
     character: '',
   });
+  const [quoteSearch, setquoteSearch] = useState('');
 
   // Añadir una nueva frase
   const handleNewQuote = (ev) => {
@@ -25,8 +26,18 @@ function App() {
     });
   }
 
+  // Filtrar
+  const handleQuoteSearch = (ev) => {
+    setquoteSearch(ev.target.value);
+  }
+
   // Pintar el listado
-  const htmlList = data.map((item, index) => (
+  const htmlList = data
+  .filter(
+    (filteredQuote)=>
+    filteredQuote.quote.toLowerCase().includes(quoteSearch.toLowerCase())
+    )
+  .map((item, index) => (
     <li key={index}>
       <p>{`${item.quote} - ${item.character}`}</p>
     </li>
@@ -38,7 +49,12 @@ function App() {
         <h1>Frases de Friends</h1>
         <form>
           <label htmlFor="search-quote">Filtrar por frases</label>
-          <input type="text" name="search-quote" id="search-quote" />
+          <input 
+          type="text" 
+          name="search-quote" 
+          id="search-quote"
+          onChange={handleQuoteSearch} 
+          value={quoteSearch}/>
           <label htmlFor="search-chracter">Filtrar por personaje</label>
           <select name="search-character" id="search-character">
             <option value="all">Todos</option>
