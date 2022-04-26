@@ -4,13 +4,32 @@ import { useState } from 'react';
 
 function App() {
   const [data, setdata] = useState(quoteData);
+  const [newQuote, setnewQuote] = useState({
+    quote: '',
+    character: '',
+  });
+
+  // Añadir una nueva frase
+  const handleNewQuote = (ev) => {
+    console.log(ev.target.value);
+    setnewQuote({ ...newQuote,
+    [ev.target.id]: ev.target.value,
+    });
+  }
+  const handleAddBtn = (ev) => { 
+    ev.preventDefault();
+    setdata([...data, newQuote]);
+    setnewQuote({
+      quote: '',
+      character: '',
+    });
+  }
 
   // Pintar el listado
-  const htmlList = data
-  .map((item, index) => (
+  const htmlList = data.map((item, index) => (
     <li key={index}>
       <p>{`${item.quote} - ${item.character}`}</p>
-      </li>
+    </li>
   ));
 
   return (
@@ -18,10 +37,10 @@ function App() {
       <header>
         <h1>Frases de Friends</h1>
         <form>
-          <label htmlFor="quote">Filtrar por frases</label>
-          <input type="text" name="quote" id="quote" />
-          <label htmlFor="chracter">Filtrar por personaje</label>
-          <select name="character" id="character">
+          <label htmlFor="search-quote">Filtrar por frases</label>
+          <input type="text" name="search-quote" id="search-quote" />
+          <label htmlFor="search-chracter">Filtrar por personaje</label>
+          <select name="search-character" id="search-character">
             <option value="all">Todos</option>
             <option value="ross">Ross</option>
             <option value="monica">Mónica</option>
@@ -33,16 +52,29 @@ function App() {
         </form>
       </header>
       <main>
-        <ul>
-          {htmlList}
-        </ul>
+        <ul>{htmlList}</ul>
         <form>
           <h2>Añadir una nueva frase</h2>
-          <label htmlFor="newQuote">Frase</label>
-          <input type="text" name="newQuote" id="newQuote" />
-          <label htmlFor="character2">Personaje</label>
-          <input type="text" name="character2" id="character2" />
-          <input type="submit" value="Añadir una nueva frase" />
+          <label htmlFor="quote">Frase</label>
+          <input
+            type="text"
+            name="quote"
+            id="quote"
+            onChange={handleNewQuote}
+            value={newQuote.quote}
+          />
+          <label htmlFor="character">Personaje</label>
+          <input
+            type="text"
+            name="character"
+            id="character"
+            onChange={handleNewQuote}
+            value={newQuote.character}
+          />
+          <input 
+          type="submit" 
+          value="Añadir una nueva frase"
+          onClick={handleAddBtn} />
         </form>
       </main>
     </div>
