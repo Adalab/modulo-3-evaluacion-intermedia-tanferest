@@ -1,6 +1,18 @@
 import '../styles/App.css';
+import quoteData from '../data/quotes.json';
+import { useState } from 'react';
 
 function App() {
+  const [data, setdata] = useState(quoteData);
+
+  // Pintar el listado
+  const htmlList = data
+  .map((item, index) => (
+    <li key={index}>
+      <p>{`${item.quote} - ${item.character}`}</p>
+      </li>
+  ));
+
   return (
     <div>
       <header>
@@ -21,7 +33,9 @@ function App() {
         </form>
       </header>
       <main>
-        <ul></ul>
+        <ul>
+          {htmlList}
+        </ul>
         <form>
           <h2>Añadir una nueva frase</h2>
           <label htmlFor="newQuote">Frase</label>
