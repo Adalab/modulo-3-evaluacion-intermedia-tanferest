@@ -1,15 +1,23 @@
 import '../styles/App.css';
-import quoteData from '../data/quotes.json';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [data, setdata] = useState(quoteData);
+  const [data, setdata] = useState([]);
   const [newQuote, setnewQuote] = useState({
     quote: '',
     character: '',
   });
   const [quoteSearch, setquoteSearch] = useState('');
   const [characterSearch, setcharacterSearch] = useState('all');
+
+  useEffect(() => {
+    fetch("https://beta.adalab.es/curso-intensivo-fullstack-recursos/apis/quotes-friends-tv-v1/quotes.json")
+    .then((response) => response.json())
+    .then((apiData) => {
+      setdata(apiData);
+    })
+  },[]);
+
 
   // Añadir una nueva frase
   const handleNewQuote = (ev) => {
