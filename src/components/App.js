@@ -7,6 +7,7 @@ function App() {
     quote: '',
     character: '',
   });
+  const [error, setError] = useState('');
   const [quoteSearch, setquoteSearch] = useState('');
   const [characterSearch, setcharacterSearch] = useState('all');
 
@@ -28,11 +29,16 @@ function App() {
   }
   const handleAddBtn = (ev) => { 
     ev.preventDefault();
-    setdata([...data, newQuote]);
-    setnewQuote({
-      quote: '',
-      character: '',
-    });
+    if(newQuote.quote !== '' && newQuote.character !== ''){
+      setdata([...data, newQuote]);
+      setnewQuote({
+        quote: '',
+        character: '',
+      })
+      setError(''); 
+    } else {
+      setError("Por favor, rellene todos los campos.");
+    }
   }
 
   // Filtrar
@@ -91,6 +97,7 @@ function App() {
       <main>
         <ul>{htmlList}</ul>
         <form>
+          <p>{error}</p>
           <h2>Añadir una nueva frase</h2>
           <label htmlFor="quote">Frase</label>
           <input
