@@ -41,7 +41,13 @@ function App() {
     (filteredQuote)=>
     filteredQuote.quote.toLowerCase().includes(quoteSearch.toLowerCase())
     )
-  .filter((selectedCh)=> selectedCh.character.toLowerCase().includes(characterSearch))
+  .filter((selectedCh)=> {
+    if (characterSearch === 'all') {
+      return true;
+    } else {
+      return selectedCh.character.toLowerCase().includes(characterSearch);
+    }
+  })
   .map((item, index) => (
     <li key={index}>
       <p>{`${item.quote} - ${item.character}`}</p>
@@ -63,7 +69,7 @@ function App() {
           <label htmlFor="search-chracter">Filtrar por personaje</label>
           <select 
           name="search-character" id="search-character"
-          onChange={handleCharacterSel}>
+          onChange={handleCharacterSel} value={characterSearch}>
             <option value="all">Todos</option>
             <option value="ross">Ross</option>
             <option value="monica">Mónica</option>
